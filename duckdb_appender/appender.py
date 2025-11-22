@@ -50,11 +50,11 @@ class SQLiteBuffer:
         self._cur.execute(f"DROP TABLE IF EXISTS {schema.table_name}")
 
         self._cur.execute(
-            f"""
+            f'''
             CREATE TABLE {schema.table_name} (
-                {', '.join([f"{col_name} {col_type}" for col_name, col_type in zip(schema.column_names, schema.column_types)])}
+                {", ".join([f'"{col_name}" {col_type}' for col_name, col_type in zip(schema.column_names, schema.column_types)])}
             )
-            """
+            '''
         )
         self._conn.commit()
 
@@ -81,7 +81,7 @@ class SQLiteBuffer:
 
         self._cur.execute(
             f"""INSERT INTO {self.table} (
-                {', '.join([col for col in self.table_schema.column_names])}
+                {', '.join([f'"{col}"' for col in self.table_schema.column_names])}
             ) VALUES (
                 {', '.join(['?' for _ in row])}
             )""",
